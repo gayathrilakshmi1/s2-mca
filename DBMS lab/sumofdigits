@@ -1,0 +1,33 @@
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE FUNCTION SumOfDigits(num INT)
+    -> RETURNS INT
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE sumd INT DEFAULT 0;
+    ->     DECLARE rem INT;
+    -> 
+    ->     WHILE num > 0 DO
+    ->         SET rem = num % 10;
+    ->         SET sumd = sumd + rem;
+    ->         SET num = num DIV 10;
+    ->     END WHILE;
+    -> 
+    ->     RETURN sumd;
+    -> END //
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> SELECT SumOfDigits(1234);
++-------------------+
+| SumOfDigits(1234) |
++-------------------+
+|                10 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+

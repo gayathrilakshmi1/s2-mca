@@ -1,0 +1,383 @@
+mysql> create database empdep;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use empdep;
+Database changed
+mysql> create table department(dep_no int(10),designation VARCHAR(20));
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+
+mysql> drop table department;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table department(dep_no varchar(10),designation VARCHAR(20));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into department values('dpo1','HR');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into department values('dpo2','Sales');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into department values('dpo3','IT');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> create table employee(emp_no varchar(10),emp_name varchar(30),designation varchar(20),salary integer,dep_no varchar(10) foreign key);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'foreign key)' at line 1
+mysql> alter table department add primary key(dep_no);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create table employee(emp_no varchar(10),emp_name varchar(30),designation varchar(20),salary integer,dep_no varchar(10) foreign key);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'foreign key)' at line 1
+mysql> create table employee(emp_no varchar(10),emp_name varchar(30),designation varchar(20),salary integer,dep_no varchar(10),foreign key);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> create table employee(emp_no varchar(10),emp_name varchar(30),designation varchar(20),salary integer,dep_no varchar(10),foreign key(dep_no) references department(dep_no));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into employee values('emp_01','Amit','Manager',45000,'dpo_1');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`empdep`.`employee`, CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`dep_no`) REFERENCES `department` (`dep_no`))
+mysql> insert into employee values('emp_01','Amit','Manager',45000,'dpo1');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into employee values('emp_02','Anu','Analyst',30000,'dpo2');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into employee values('emp_03','Veena','Clerk',15000,'dpo2');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee values('emp_04','Ravi','Manager',50000,'dpo3');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee values('emp_05','Sita','Clerk',12000,'dpo1');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into employee values('emp_06','John','Analyst',28000,'dpo3');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee values('emp_07','Alex','Manager',60000,'dpo2');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into employee values('emp_08','Neha','Clerk',10000,'dpo1');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee values('emp_09','Arun','Analyst',35000,'dpo3');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into employee values('emp_10','Kiran','Clerk',8000,'dpo2');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select*from employee;
++--------+----------+-------------+--------+--------+
+| emp_no | emp_name | designation | salary | dep_no |
++--------+----------+-------------+--------+--------+
+| emp_01 | Amit     | Manager     |  45000 | dpo1   |
+| emp_02 | Anu      | Analyst     |  30000 | dpo2   |
+| emp_03 | Veena    | Clerk       |  15000 | dpo2   |
+| emp_04 | Ravi     | Manager     |  50000 | dpo3   |
+| emp_05 | Sita     | Clerk       |  12000 | dpo1   |
+| emp_06 | John     | Analyst     |  28000 | dpo3   |
+| emp_07 | Alex     | Manager     |  60000 | dpo2   |
+| emp_08 | Neha     | Clerk       |  10000 | dpo1   |
+| emp_09 | Arun     | Analyst     |  35000 | dpo3   |
+| emp_10 | Kiran    | Clerk       |   8000 | dpo2   |
++--------+----------+-------------+--------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select*from department;
++--------+-------------+
+| dep_no | designation |
++--------+-------------+
+| dpo1   | HR          |
+| dpo2   | Sales       |
+| dpo3   | IT          |
++--------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select emp_no,emp_name from employee where dep_no='dpo2';
++--------+----------+
+| emp_no | emp_name |
++--------+----------+
+| emp_02 | Anu      |
+| emp_03 | Veena    |
+| emp_07 | Alex     |
+| emp_10 | Kiran    |
++--------+----------+
+4 rows in set (0.01 sec)
+
+mysql> select emp_no,emp_name,designation,dep_no,salary from employee order by salary desc;
++--------+----------+-------------+--------+--------+
+| emp_no | emp_name | designation | dep_no | salary |
++--------+----------+-------------+--------+--------+
+| emp_07 | Alex     | Manager     | dpo2   |  60000 |
+| emp_04 | Ravi     | Manager     | dpo3   |  50000 |
+| emp_01 | Amit     | Manager     | dpo1   |  45000 |
+| emp_09 | Arun     | Analyst     | dpo3   |  35000 |
+| emp_02 | Anu      | Analyst     | dpo2   |  30000 |
+| emp_06 | John     | Analyst     | dpo3   |  28000 |
+| emp_03 | Veena    | Clerk       | dpo2   |  15000 |
+| emp_05 | Sita     | Clerk       | dpo1   |  12000 |
+| emp_08 | Neha     | Clerk       | dpo1   |  10000 |
+| emp_10 | Kiran    | Clerk       | dpo2   |   8000 |
++--------+----------+-------------+--------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_no,emp_name from employee where salary between 20000 and 50000;
++--------+----------+
+| emp_no | emp_name |
++--------+----------+
+| emp_01 | Amit     |
+| emp_02 | Anu      |
+| emp_04 | Ravi     |
+| emp_06 | John     |
+| emp_09 | Arun     |
++--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select distinct designation from employee;
++-------------+
+| designation |
++-------------+
+| Manager     |
+| Analyst     |
+| Clerk       |
++-------------+
+3 rows in set (0.01 sec)
+
+mysql> update employee set salary=45000 where designation='Manager';
+Query OK, 2 rows affected (0.02 sec)
+Rows matched: 3  Changed: 2  Warnings: 0
+
+mysql> delete from employee where salary=5000;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select emp_name,salary from employee where emp_name like'A%';
++----------+--------+
+| emp_name | salary |
++----------+--------+
+| Amit     |  45000 |
+| Anu      |  30000 |
+| Alex     |  45000 |
+| Arun     |  35000 |
++----------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select*from employee where length(emp_name)>=3 and salary>20000;
++--------+----------+-------------+--------+--------+
+| emp_no | emp_name | designation | salary | dep_no |
++--------+----------+-------------+--------+--------+
+| emp_01 | Amit     | Manager     |  45000 | dpo1   |
+| emp_02 | Anu      | Analyst     |  30000 | dpo2   |
+| emp_04 | Ravi     | Manager     |  45000 | dpo3   |
+| emp_06 | John     | Analyst     |  28000 | dpo3   |
+| emp_07 | Alex     | Manager     |  45000 | dpo2   |
+| emp_09 | Arun     | Analyst     |  35000 | dpo3   |
++--------+----------+-------------+--------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select*from employee where emp_no in('emp_01','emp_02','emp_03','emp_04');
++--------+----------+-------------+--------+--------+
+| emp_no | emp_name | designation | salary | dep_no |
++--------+----------+-------------+--------+--------+
+| emp_01 | Amit     | Manager     |  45000 | dpo1   |
+| emp_02 | Anu      | Analyst     |  30000 | dpo2   |
+| emp_03 | Veena    | Clerk       |  15000 | dpo2   |
+| emp_04 | Ravi     | Manager     |  45000 | dpo3   |
++--------+----------+-------------+--------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select emp_no,emp_name from employee where salary between 10000 and 30000;
++--------+----------+
+| emp_no | emp_name |
++--------+----------+
+| emp_02 | Anu      |
+| emp_03 | Veena    |
+| emp_05 | Sita     |
+| emp_06 | John     |
+| emp_08 | Neha     |
++--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select emp_no,emp_name from employee where designation in('Manager','Analyst');
++--------+----------+
+| emp_no | emp_name |
++--------+----------+
+| emp_01 | Amit     |
+| emp_02 | Anu      |
+| emp_04 | Ravi     |
+| emp_06 | John     |
+| emp_07 | Alex     |
+| emp_09 | Arun     |
++--------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select dep_no,count(*)as total_employees from employee group by dep_no;
++--------+-----------------+
+| dep_no | total_employees |
++--------+-----------------+
+| dpo1   |               3 |
+| dpo2   |               4 |
+| dpo3   |               3 |
++--------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> select dep_no,avg(salary)as avg_salary from employee group by dep_no;
++--------+------------+
+| dep_no | avg_salary |
++--------+------------+
+| dpo1   | 22333.3333 |
+| dpo2   | 24500.0000 |
+| dpo3   | 36000.0000 |
++--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select dep_no,sum(salary)as total_salary from employee group by dep_no;
++--------+--------------+
+| dep_no | total_salary |
++--------+--------------+
+| dpo1   |        67000 |
+| dpo2   |        98000 |
+| dpo3   |       108000 |
++--------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> select dep_no,max(salary)as highest_salary,min(salary)as lowest_salary from employee group by dep_no;
++--------+----------------+---------------+
+| dep_no | highest_salary | lowest_salary |
++--------+----------------+---------------+
+| dpo1   |          45000 |         10000 |
+| dpo2   |          45000 |          8000 |
+| dpo3   |          45000 |         28000 |
++--------+----------------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> select dep_no,avg(salary)as avg_salary from employee where dep_no<>'dpo1' group by dep_no;
++--------+------------+
+| dep_no | avg_salary |
++--------+------------+
+| dpo2   | 24500.0000 |
+| dpo3   | 36000.0000 |
++--------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select dep_no,avg(salary)as avg_salary from employee where dep_no<>'dpo1' group by dep_no having avg(salary)>20000 order by avg_salary asc;
++--------+------------+
+| dep_no | avg_salary |
++--------+------------+
+| dpo2   | 24500.0000 |
+| dpo3   | 36000.0000 |
++--------+------------+
+2 rows in set (0.00 sec)
+
+mysql> alter table employee add mobno integer(10);
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> update employee set mobno='9876543210'where emp_no='emp_01';
+ERROR 1264 (22003): Out of range value for column 'mobno' at row 1
+mysql> alter table employee modify mobno integer(15);
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> update employee set mobno='9876543210'where emp_no='emp_01';
+ERROR 1264 (22003): Out of range value for column 'mobno' at row 1
+mysql> select*from epmloyee;
+ERROR 1146 (42S02): Table 'empdep.epmloyee' doesn't exist
+mysql> select*from employee;
++--------+----------+-------------+--------+--------+-------+
+| emp_no | emp_name | designation | salary | dep_no | mobno |
++--------+----------+-------------+--------+--------+-------+
+| emp_01 | Amit     | Manager     |  45000 | dpo1   |  NULL |
+| emp_02 | Anu      | Analyst     |  30000 | dpo2   |  NULL |
+| emp_03 | Veena    | Clerk       |  15000 | dpo2   |  NULL |
+| emp_04 | Ravi     | Manager     |  45000 | dpo3   |  NULL |
+| emp_05 | Sita     | Clerk       |  12000 | dpo1   |  NULL |
+| emp_06 | John     | Analyst     |  28000 | dpo3   |  NULL |
+| emp_07 | Alex     | Manager     |  45000 | dpo2   |  NULL |
+| emp_08 | Neha     | Clerk       |  10000 | dpo1   |  NULL |
+| emp_09 | Arun     | Analyst     |  35000 | dpo3   |  NULL |
+| emp_10 | Kiran    | Clerk       |   8000 | dpo2   |  NULL |
++--------+----------+-------------+--------+--------+-------+
+10 rows in set (0.00 sec)
+
+mysql> update employee set mobno=9876543210 where emp_no='emp_01';
+ERROR 1264 (22003): Out of range value for column 'mobno' at row 1
+mysql> update employee set mobno='9876543210' where emp_no='emp_01';
+ERROR 1264 (22003): Out of range value for column 'mobno' at row 1
+mysql> alter table employee modify mobno varchar(10);
+Query OK, 10 rows affected (0.08 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> update employee set mobno='9876543210' where emp_no='emp_01';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set mobno='9876543765' where emp_no='emp_02';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set mobno='9889543765' where emp_no='emp_03';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set mobno='9889546451' where emp_no='emp_04';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set mobno='9889588888' where emp_no='emp_05';
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set mobno='9889599999' where emp_no='emp_06';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set mobno='9889511111' where emp_no='emp_07';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set mobno='9889522222' where emp_no='emp_08';
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set mobno='9889533333' where emp_no='emp_09';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set mobno='9889555555' where emp_no='emp_10';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from employee;
++--------+----------+-------------+--------+--------+------------+
+| emp_no | emp_name | designation | salary | dep_no | mobno      |
++--------+----------+-------------+--------+--------+------------+
+| emp_01 | Amit     | Manager     |  45000 | dpo1   | 9876543210 |
+| emp_02 | Anu      | Analyst     |  30000 | dpo2   | 9876543765 |
+| emp_03 | Veena    | Clerk       |  15000 | dpo2   | 9889543765 |
+| emp_04 | Ravi     | Manager     |  45000 | dpo3   | 9889546451 |
+| emp_05 | Sita     | Clerk       |  12000 | dpo1   | 9889588888 |
+| emp_06 | John     | Analyst     |  28000 | dpo3   | 9889599999 |
+| emp_07 | Alex     | Manager     |  45000 | dpo2   | 9889511111 |
+| emp_08 | Neha     | Clerk       |  10000 | dpo1   | 9889522222 |
+| emp_09 | Arun     | Analyst     |  35000 | dpo3   | 9889533333 |
+| emp_10 | Kiran    | Clerk       |   8000 | dpo2   | 9889555555 |
++--------+----------+-------------+--------+--------+------------+
+10 rows in set (0.00 sec)
+
+mysql> update employee set mobno='9876543219' emp_name='Veena';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'emp_name='Veena'' at line 1
+mysql> update employee set mobno='9876543219' where emp_name='Veena';
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select emp_name,mobno from employee where emp_name like 'A%';
++----------+------------+
+| emp_name | mobno      |
++----------+------------+
+| Amit     | 9876543210 |
+| Anu      | 9876543765 |
+| Alex     | 9889511111 |
+| Arun     | 9889533333 |
++----------+------------+
+4 rows in set (0.00 sec)
+

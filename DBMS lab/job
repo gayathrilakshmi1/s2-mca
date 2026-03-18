@@ -1,0 +1,38 @@
+mysql> CREATE TABLE employees (emp_id INT PRIMARY KEY, emp_name VARCHAR(50), salary VARCHAR(20));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO employees VALUES (1,'Arun',30000),(2,'Bina',25000),(3,'Rahul',40000);
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> DELIMITER //
+mysql> CREATE PROCEDURE increase_salary_cursor() BEGIN DECLARE done INT DEFAULT 0;
+    -> DECLARE v_emp_id INT; DECLARE v_salary DECIMAL(10,2);
+    -> DECLARE emp_cursor CURSOR FOR SELECT emp_id, salary FROM employees; DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    -> OPEN emp_cursor;
+    -> read_loop: LOOP
+    -> FETCH emp_cursor INTO v_emp_id, v_salary;
+    -> IF done = 1 THEN
+    -> LEAVE read_loop;
+    -> END IF;
+    -> UPDATE employees SET salary = v_salary * 1.10 WHERE emp_id = v_emp_id;
+    -> END LOOP;
+    -> CLOSE emp_cursor;
+    -> END //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DELIMITER ;
+mysql> CALL increase_salary_cursor();
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> SELECT * FROM employees;
++--------+----------+------------+
+| emp_id | emp_name | salary     |
++--------+----------+------------+
+|      1 | Arun     | 33000.0000 |
+|      2 | Bina     | 27500.0000 |
+|      3 | Rahul    | 44000.0000 |
++--------+----------+------------+
+3 rows in set (0.00 sec)
+
+

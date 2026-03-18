@@ -1,0 +1,96 @@
+constraints qns
+mysql> create database details;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use details;
+Database changed
+mysql> create table person(person_id integer primary key,name varchar(30) not null,aadhar varchar(10) not null unique,age integer check(age>18);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create table person(person_id integer primary key,name varchar(30) not null,aadhar varchar(10) not null unique,age integer check(age>18));
+Query OK, 0 rows affected (0.05 sec)
+
+
+mysql> create table orders(order_id integer primary key,order_no varchar(30) not null,person_id integer, foreign key(person_id) references person(person_id));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> select*from person;
+Empty set (0.00 sec)
+
+mysql> DESC person;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| person_id | int         | NO   | PRI | NULL    |       |
+| name      | varchar(30) | NO   |     | NULL    |       |
+| aadhar    | varchar(10) | NO   | UNI | NULL    |       |
+| age       | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> DESC orders;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| order_id  | int         | NO   | PRI | NULL    |       |
+| order_no  | varchar(30) | NO   |     | NULL    |       |
+| person_id | int         | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> create table employee;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> create table employee(emp_no int(10),emp_name varchar(20),place varchar(35),phone_no int(10),dep_name varchar(30),job_id int(10),salary int(25));
+Query OK, 0 rows affected, 4 warnings (0.05 sec)
+
+mysql> DESC employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| emp_no   | int         | YES  |     | NULL    |       |
+| emp_name | varchar(20) | YES  |     | NULL    |       |
+| place    | varchar(35) | YES  |     | NULL    |       |
+| phone_no | int         | YES  |     | NULL    |       |
+| dep_name | varchar(30) | YES  |     | NULL    |       |
+| job_id   | int         | YES  |     | NULL    |       |
+| salary   | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> create table department(dep_no int(10),emp_no int(20),emp_name varchar(30));
+Query OK, 0 rows affected, 2 warnings (0.04 sec)
+
+mysql> DESC department
+    -> ;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| dep_no   | int         | YES  |     | NULL    |       |
+| emp_no   | int         | YES  |     | NULL    |       |
+| emp_name | varchar(30) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table department add primary key(dep_no);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee add primary key(emp_no);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee add dep_no int;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee add foreign key(dep_no) references department(dep_no) on delete cascade;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| emp_no   | int         | NO   | PRI | NULL    |       |
+| emp_name | varchar(20) | YES  |     | NULL    |   constraints qns
+mysql> create database details;
+Query OK, 1 row affected (0.01 sec)

@@ -1,0 +1,46 @@
+mysql> use plsql;
+Database changed
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE FindFactorial(IN num INT)
+    -> BEGIN
+    ->     DECLARE i INT DEFAULT 1;
+    ->     DECLARE fact BIGINT DEFAULT 1;
+    -> 
+    ->     IF num < 0 THEN
+    ->         SELECT 'Factorial not defined for negative numbers' AS Message;
+    ->     ELSE
+    ->         WHILE i <= num DO
+    ->             SET fact = fact * i;
+    ->             SET i = i + 1;
+    ->         END WHILE;
+    -> 
+    ->         SELECT fact AS Factorial;
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> CALL FindFactorial(5);
++-----------+
+| Factorial |
++-----------+
+|       120 |
++-----------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> CALL FindFactorial(7);
++-----------+
+| Factorial |
++-----------+
+|      5040 |
++-----------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+

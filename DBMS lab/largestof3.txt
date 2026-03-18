@@ -1,0 +1,28 @@
+mysql> create database plsql;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use plsql;
+Database changed
+mysql> DELIMITER //
+mysql> CREATE PROCEDURE FindGreatest(IN num1 INT,IN num2 INT,IN num3 INT) BEGIN DECLARE greatest INT;
+    -> IF num1 >= num2 AND num1 >= num3 THEN SET greatest = num1;
+    -> ELSEIF num2 >= num1 AND num2 >= num3 THEN SET greatest = num2;
+    -> ELSE SET greatest = num3;
+    -> END IF;
+    -> SELECT greatest AS Greatest_Number;
+    -> END //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DELIMITER ;
+mysql> CALL FindGreatest(10, 25, 15);
++-----------------+
+| Greatest_Number |
++-----------------+
+|              25 |
++-----------------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+

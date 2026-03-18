@@ -1,0 +1,113 @@
+mca@mca-HP-Pro-Tower-280-G9-E-PCI-Desktop-PC:~/Desktop$ sudo mysql
+[sudo] password for mca: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.44-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database office;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use office;
+Database changed
+mysql> create table employee(employee_no varchar(10),primary key,employee_name varchar(10),phno int(10),dept_name varchar(50),job_id int(10),salary int(40));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',employee_name varchar(10),phno int(10),dept_name varchar(50),job_id int(10),sal' at line 1
+mysql> create table employeee(employee_no varchar(10),primary key,employee_name
+varchar(10),phno int(10),dept_name varchar(50),job_id int(10),salary int(40));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',employee_name varchar(10),phno int(10),dept_name varchar(50),job_id int(10),sal' at line 1
+mysql> create table employeee(employee_no varchar(10),primary key,employee_name varchar(10),phno int(10),dept_name varchar(50),job_id int(10),salary int(40));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',employee_name varchar(10),phno int(10),dept_name varchar(50),job_id int(10),sal' at line 1
+mysql> create table employee(employee_no varchar(10)primary key,employee_name varchar(10),phno int(10),dept_name varchar(50),job_id int(10),salary int(40));
+Query OK, 0 rows affected, 3 warnings (0.04 sec)
+
+mysql> create table department(dep_no varchar(10),employee_no varchar(10),employee_name varchar(20));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show tables;
++------------------+
+| Tables_in_office |
++------------------+
+| department       |
+| employee         |
++------------------+
+2 rows in set (0.00 sec)
+
+mysql> alter table employee add hired_date date;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee modify column employee_no to eno;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to eno' at line 1
+mysql> alter table employee modify column employee_no to eno varchar(20);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to eno varchar(20)' at line 1
+mysql> alter table employee rename column employee_no to eno;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee modify column job_id int(10);
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> DESC department;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| dep_no        | varchar(10) | YES  |     | NULL    |       |
+| employee_no   | varchar(10) | YES  |     | NULL    |       |
+| employee_name | varchar(20) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> DESC employee;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| eno           | varchar(10) | NO   | PRI | NULL    |       |
+| employee_name | varchar(10) | YES  |     | NULL    |       |
+| phno          | int         | YES  |     | NULL    |       |
+| dept_name     | varchar(50) | YES  |     | NULL    |       |
+| job_id        | int         | YES  |     | NULL    |       |
+| salary        | int         | YES  |     | NULL    |       |
+| hired_date    | date        | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> alter table drop column hired_date;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'drop column hired_date' at line 1
+mysql> alter table employee drop column hired_date;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee rename to emp;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> DESC department;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| dep_no        | varchar(10) | YES  |     | NULL    |       |
+| employee_no   | varchar(10) | YES  |     | NULL    |       |
+| employee_name | varchar(20) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> DESC employee;
+ERROR 1146 (42S02): Table 'office.employee' doesn't exist
+mysql> truncate table employee;
+ERROR 1146 (42S02): Table 'office.employee' doesn't exist
+mysql> truncate table emp;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> drop table emp;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+
+

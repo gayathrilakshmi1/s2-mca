@@ -1,0 +1,30 @@
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE FindGrade(IN mark INT)
+    -> BEGIN
+    ->     IF mark >= 90 THEN
+    ->         SELECT 'Grade A' AS Grade;
+    ->     ELSEIF mark >= 80 THEN
+    ->         SELECT 'Grade B' AS Grade;
+    ->     ELSEIF mark >= 70 THEN
+    ->         SELECT 'Grade C' AS Grade;
+    ->     ELSEIF mark >= 60 THEN
+    ->         SELECT 'Grade D' AS Grade;
+    ->     ELSE
+    ->         SELECT 'Grade F' AS Grade;
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> CALL FindGrade(85);
++---------+
+| Grade   |
++---------+
+| Grade B |
++---------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+

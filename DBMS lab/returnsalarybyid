@@ -1,0 +1,42 @@
+mysql> CREATE TABLE employee (
+    ->     emp_id INT PRIMARY KEY,
+    ->     salary INT
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> INSERT INTO employee VALUES
+    -> (1, 30000),
+    -> (2, 45000),
+    -> (3, 50000);
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE FUNCTION GetSalary(eid INT)
+    -> RETURNS INT
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE sal INT;
+    -> 
+    ->     SELECT salary INTO sal
+    ->     FROM employee
+    ->     WHERE emp_id = eid;
+    -> 
+    ->     RETURN sal;
+    -> END //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> SELECT GetSalary(2);
++--------------+
+| GetSalary(2) |
++--------------+
+|        45000 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> 
+
+

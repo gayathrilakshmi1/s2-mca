@@ -1,0 +1,30 @@
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE SumSeries(IN n INT)
+    -> BEGIN
+    ->     DECLARE i INT DEFAULT 1;
+    ->     DECLARE total INT DEFAULT 0;
+    -> 
+    ->     WHILE i <= n DO
+    ->         SET total = total + i;
+    ->         SET i = i + 1;
+    ->     END WHILE;
+    -> 
+    ->     SELECT total AS Sum_of_Series;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> CALL SumSeries(5);
++---------------+
+| Sum_of_Series |
++---------------+
+|            15 |
++---------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+

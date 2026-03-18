@@ -1,0 +1,166 @@
+test> db.student.insertMany([
+... {rollno:1,name:"Arun",department:"MCA",semester:2,cgpa:8.5},
+... {rollno:2,name:"Rahul",department:"BCA",semester:3,cgpa:7.8},
+... {rollno:3,name:"Neha",department:"MCA",semester:2,cgpa:8.2},
+... {rollno:4,name:"Anu",department:"BSc",semester:4,cgpa:7.5},
+... {rollno:5,name:"Kiran",department:"MCA",semester:3,cgpa:8.9},
+... {rollno:6,name:"Deepak",department:"BCA",semester:1,cgpa:7.2},
+... {rollno:7,name:"Asha",department:"MCA",semester:2,cgpa:8.0},
+... {rollno:8,name:"Riya",department:"BSc",semester:5,cgpa:7.9},
+... {rollno:9,name:"Manu",department:"MCA",semester:4,cgpa:8.6},
+... {rollno:10,name:"Sona",department:"BCA",semester:3,cgpa:7.4}
+... ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69b911b9175f2159518de666'),
+    '1': ObjectId('69b911b9175f2159518de667'),
+    '2': ObjectId('69b911b9175f2159518de668'),
+    '3': ObjectId('69b911b9175f2159518de669'),
+    '4': ObjectId('69b911b9175f2159518de66a'),
+    '5': ObjectId('69b911b9175f2159518de66b'),
+    '6': ObjectId('69b911b9175f2159518de66c'),
+    '7': ObjectId('69b911b9175f2159518de66d'),
+    '8': ObjectId('69b911b9175f2159518de66e'),
+    '9': ObjectId('69b911b9175f2159518de66f')
+  }
+}
+test> db.student.find({department:"MCA"})
+[
+  {
+    _id: ObjectId('69b911b9175f2159518de666'),
+    rollno: 1,
+    name: 'Arun',
+    department: 'MCA',
+    semester: 2,
+    cgpa: 8.5
+  },
+  {
+    _id: ObjectId('69b911b9175f2159518de668'),
+    rollno: 3,
+    name: 'Neha',
+    department: 'MCA',
+    semester: 2,
+    cgpa: 8.2
+  },
+  {
+    _id: ObjectId('69b911b9175f2159518de66a'),
+    rollno: 5,
+    name: 'Kiran',
+    department: 'MCA',
+    semester: 3,
+    cgpa: 8.9
+  },
+  {
+    _id: ObjectId('69b911b9175f2159518de66c'),
+    rollno: 7,
+    name: 'Asha',
+    department: 'MCA',
+    semester: 2,
+    cgpa: 8
+  },
+  {
+    _id: ObjectId('69b911b9175f2159518de66e'),
+    rollno: 9,
+    name: 'Manu',
+    department: 'MCA',
+    semester: 4,
+    cgpa: 8.6
+  }
+]
+test> db.student.updateMany(
+... {department:"MCA"},
+... {$set:{semester:1}}
+... )
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 5,
+  modifiedCount: 5,
+  upsertedCount: 0
+}
+test> db.student.find()
+[
+  {
+    _id: ObjectId('69b911b9175f2159518de666'),
+    rollno: 1,
+    name: 'Arun',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 8.5
+  },
+  {
+    _id: ObjectId('69b911b9175f2159518de667'),
+    rollno: 2,
+    name: 'Rahul',
+    department: 'BCA',
+    semester: 3,
+    cgpa: 7.8
+  },
+  {
+    _id: ObjectId('69b911b9175f2159518de668'),
+    rollno: 3,
+    name: 'Neha',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 8.2
+  },
+  {
+    _id: ObjectId('69b911b9175f2159518de669'),
+    rollno: 4,
+    name: 'Anu',
+    department: 'BSc',
+    semester: 4,
+    cgpa: 7.5
+  },
+  {
+    _id: ObjectId('69b911b9175f2159518de66a'),
+    rollno: 5,
+    name: 'Kiran',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 8.9
+  },
+  {
+    _id: ObjectId('69b911b9175f2159518de66b'),
+    rollno: 6,
+    name: 'Deepak',
+    department: 'BCA',
+    semester: 1,
+    cgpa: 7.2
+  },
+  {
+    _id: ObjectId('69b911b9175f2159518de66c'),
+    rollno: 7,
+    name: 'Asha',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 8
+  },
+  {
+    _id: ObjectId('69b911b9175f2159518de66d'),
+    rollno: 8,
+    name: 'Riya',
+    department: 'BSc',
+    semester: 5,
+    cgpa: 7.9
+  },
+  {
+    _id: ObjectId('69b911b9175f2159518de66e'),
+    rollno: 9,
+    name: 'Manu',
+    department: 'MCA',
+    semester: 1,
+    cgpa: 8.6
+  },
+  {
+    _id: ObjectId('69b911b9175f2159518de66f'),
+    rollno: 10,
+    name: 'Sona',
+    department: 'BCA',
+    semester: 3,
+    cgpa: 7.4
+  }
+]
+test> 
+

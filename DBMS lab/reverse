@@ -1,0 +1,30 @@
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE ReverseNumber(IN num INT)
+    -> BEGIN
+    ->     DECLARE rev INT DEFAULT 0;
+    ->     DECLARE rem INT;
+    -> 
+    ->     WHILE num > 0 DO
+    ->         SET rem = num % 10;
+    ->         SET rev = rev * 10 + rem;
+    ->         SET num = num DIV 10;
+    ->     END WHILE;
+    -> 
+    ->     SELECT rev AS Reversed_Number;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> CALL ReverseNumber(1234);
++-----------------+
+| Reversed_Number |
++-----------------+
+|            4321 |
++-----------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
